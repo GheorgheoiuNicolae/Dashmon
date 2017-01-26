@@ -1,0 +1,35 @@
+@import './styles/variables.less';
+@import './components/components.less';
+
+body {
+  background: #333;
+  // color: #eee;
+}
+.app {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.rendered-view {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex: 1;
+}
+.login-box {
+  border: 1px solid coral;
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column
+}
+
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
