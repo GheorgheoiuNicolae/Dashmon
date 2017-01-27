@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Router, Route, IndexRoute } from 'react-router';
 import { Provider } from 'react-redux';
 import store, { history } from './stores/store';
@@ -10,10 +11,13 @@ import Dashboard from './components/private/dashboard/dashboard';
 import EntryList from './components/private/entrylist/EntryList';
 import Labels from './components/private/labels/Labels';
 
+var injectTapEventPlugin = require("react-tap-event-plugin");
+injectTapEventPlugin();
 
 import App from './App';
 import './index.css';
 const router = (
+  <MuiThemeProvider>
   <Provider store={ store }>
     <Router history={ history }>
       <Route path="/" component={ App }>
@@ -27,6 +31,7 @@ const router = (
       </Route>
     </Router>
   </Provider>
+  </MuiThemeProvider>
 )
 
 

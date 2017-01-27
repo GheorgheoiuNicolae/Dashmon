@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
 import Entry from '../entry/Entry';
 
 @connect((store) => {
