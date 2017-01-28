@@ -14,8 +14,8 @@ export default class Labels extends Component {
   createLabel(e){
     e.preventDefault()
     let label = {
-        title: this.title.value,
-        color: this.color.value,
+      title: this.title.value,
+      color: this.color.value,
     };
     
     this.props.dispatch(action.saveLabel(label, this.props.store.user.uid));

@@ -4,8 +4,10 @@ import { connect } from 'react-redux';
 import sprites from '../../../assets/sprites.svg';
 
 import Dialog from 'material-ui/Dialog';
+import Popover, { PopoverAnimationVertical } from 'material-ui/Popover';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
+import Checkbox from 'material-ui/Checkbox';
 
 import * as action from '../../../actions/entry';
 
@@ -22,13 +24,16 @@ export default class AddEntry extends Component {
       labels: [],
       open: false,
       titleValid: true,
-      submitDisabled: false
+      submitDisabled: false,
+      labelsPopoverOpen: false
     });
   }
+
 
   handleOpen = () => {
     this.setState({open: true});
   };
+
 
   handleClose = () => {
     this.setState({
@@ -41,6 +46,7 @@ export default class AddEntry extends Component {
     });
   };
   
+
   handleChange(event) {
     switch(event.target.id){
       case 'title': {
@@ -68,6 +74,7 @@ export default class AddEntry extends Component {
     }
   }
 
+
   handleSubmit = (e) => {
     e.preventDefault()
 
@@ -83,18 +90,39 @@ export default class AddEntry extends Component {
     this.handleClose();
   }
 
-  toggleLabel(e){
+
+  toggleLabel(id){
     let current = this.state.labels;
 
-    let idx = current.indexOf(e.target.id);
+    let idx = current.indexOf(id);
     if(idx !== -1){
       current.splice(idx, 1);
     } else {
-      current.push(e.target.id);
+      current.push(id);
     }
 
-    this.setState({ labels: current });
+    this.setState({ labels: current }, function(){ console.log(this.state);});
   }
+
+
+  handleCloseLabelsPopover = () => {
+    this.setState({
+      labelsPopoverOpen: false
+    });
+  }
+
+
+  handleTouchTap = (event) => {
+    event.preventDefault();
+
+    this.setState({
+      labelsPopoverOpen: true,
+      anchorEl: event.currentTarget,
+    });
+  };
+
+
+
 
   render () {
     const actions = [
@@ -115,14 +143,15 @@ export default class AddEntry extends Component {
     return (
       <div className="topbar-link add-entry-wrap">
         <FlatButton 
-        onTouchTap={this.handleOpen} 
-        children={
-          <div>
-            <svg className="icon icon-add"><use xlinkHref={`${sprites}#icon-add`}></use></svg>
-            <span>Add entry</span>
-          </div>
-        }
+          onTouchTap={this.handleOpen} 
+          children={
+            <div>
+              <svg className="icon icon-add"><use xlinkHref={`${sprites}#icon-add`}></use></svg>
+              <span>Add entry</span>
+            </div>
+          }
         />
+
         <Dialog
           title="Add entry"
           actions={actions}
@@ -131,8 +160,8 @@ export default class AddEntry extends Component {
           onRequestClose={this.handleClose}
           autoScrollBodyContent={true}
         >
-          <div>
-            <form onSubmit={this.handleSubmit}>
+          <div className="add-entry-form">
+            <form>
               <TextField
                 hintText="Title"
                 fullWidth={true}
@@ -147,6 +176,54 @@ export default class AddEntry extends Component {
                 onChange={(event) => this.handleChange(event)}
                 id="description"
               /> <br />
+
+              <FlatButton
+                onTouchTap={this.handleTouchTap}
+                children={
+                  <div className="button-choose-labels">
+                    <svg className="icon icon-label_outline"><use xlinkHref={`${sprites}#icon-label_outline`}></use></svg>
+                    <span>Labels</span>
+                  </div>
+                }
+              />
+
+              <Popover
+                open={this.state.labelsPopoverOpen}
+                anchorEl={this.state.anchorEl}
+                anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+                targetOrigin={{horizontal: 'left', vertical: 'top'}}
+                onRequestClose={this.handleCloseLabelsPopover}
+                animation={PopoverAnimationVertical}
+                className="choose-labels"
+                style={{width: '250px'}}
+              >
+                <div className="wrap">
+                  <div className="header">
+                    <h5>Choose Labels</h5>
+                  </div>
+                  
+                  <div className="labels">
+                    {this.props.store.labels.list.map(function(label){
+                      return ( <div key={label.id} id={label.id} >
+                        <Checkbox
+                          checkedIcon={ <div className="check-icon"><svg className="icon icon-check"><use xlinkHref={`${sprites}#icon-check`}></use></svg></div> }
+                          uncheckedIcon={ <div></div> }
+                          checked={this.state.labels.indexOf(label.id) ? false : true}
+                          onCheck={(e) => this.toggleLabel(label.id)}
+                          label={
+                            <div className="label">
+                              <div className="label-color" style={{backgroundColor: label.color, width: '5px', height: '5px'}}></div>
+                              <span>{label.title}</span>
+                            </div>
+                          }
+                          labelPosition="left"
+                        />
+                      </div>)
+                    }.bind(this))}
+                  </div>
+
+                </div>
+              </Popover>
                 
               <div className="labels">
                 {this.props.store.labels.list.map(function(label){
