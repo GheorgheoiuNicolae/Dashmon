@@ -6,7 +6,6 @@ import { checkAuthState } from '../../../actions/user';
 import * as action from '../../../actions/entry';
 import * as labelAction from '../../../actions/label';
 import TopBar from '../topbar/TopBar';
-import AddEntry from '../addEntry/AddEntry';
 
 @connect((store) => {
   return {
@@ -53,7 +52,7 @@ export default class Dashboard extends Component {
         <div className="dashboard-content">
           {this.props.children}
         </div>
-        <AddEntry isDisplayed={true} />
+        
       </div>
     )
   }

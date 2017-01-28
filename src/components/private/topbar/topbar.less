@@ -31,6 +31,7 @@
       height: 100%;
       min-height: 100%;
       padding: 0 10px !important;
+      border-radius: 0px!important;
     }
     &.menu-toggler {
       width: 50px;
@@ -46,19 +47,21 @@
       fill: @green;
     }
   }
+  button {
+    height: 100%;
+    min-height: 100%;
+    padding: 0 10px !important;
+    border-radius: 0px!important;
+    &>div {
+      display: flex;
+      align-items: center;
+    }
+  }
   .user-account-dropdown {
     height: 100%;
     display: flex;
     align-items: center;
-    button {
-      height: 100%;
-      min-height: 100%;
-      padding: 0 10px !important;
-      &>div {
-        display: flex;
-        align-items: center;
-      }
-    }
+    
     .username {
       display: flex;
       padding: 0 5px;

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
 import * as action from '../../../actions/user';
-import * as addEntryActions from '../../../actions/addEntry';
 import { connect } from 'react-redux';
 import sprites from '../../../assets/sprites.svg';
 import logo from '../../../assets/logo.png';
@@ -13,6 +11,7 @@ import Popover, {PopoverAnimationVertical} from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 
+import AddEntry from '../addEntry/AddEntry';
 
 @connect((store) => {
   return {
@@ -35,12 +34,7 @@ export default class TopBar extends Component {
     this.props.dispatch(action.logout());
   }
 
-  showAddEntryForm(){
-    this.props.dispatch(addEntryActions.showAddEntry());
-  }
-
   handleTouchTap = (event) => {
-    // This prevents ghost click.
     event.preventDefault();
 
     this.setState({
@@ -80,16 +74,7 @@ export default class TopBar extends Component {
           />
         </div>
         <div className="topbar-link add-entry-wrap">
-          <FlatButton
-            onTouchTap={this.showAddEntryForm.bind(this)}
-            className="add-entry-button"
-            children={
-              <div className="add-entry">
-                <svg className="icon icon-add"><use xlinkHref={`${sprites}#icon-add`}></use></svg>
-                <span>Add entry</span>
-              </div>
-            }
-          />
+          <AddEntry />
         </div>
         
         <div className="brand">
@@ -126,6 +111,8 @@ export default class TopBar extends Component {
             </Menu>
           </Popover>
         </div>
+
+        
       </div>
     )
   }

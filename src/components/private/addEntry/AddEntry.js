@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import sprites from '../../../assets/sprites.svg';
+
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+import TextField from 'material-ui/TextField';
+
 import * as action from '../../../actions/entry';
-import * as addEntryFormAction from '../../../actions/addEntry';
 
 @connect((store) => {
   return {
@@ -14,38 +19,68 @@ export default class AddEntry extends Component {
     this.setState({
       classes: '',
       labels_initial_load: true,
-      labels: []
+      labels: [],
+      open: false,
+      titleValid: true,
+      submitDisabled: false
     });
   }
-  
 
-  componentWillReceiveProps(nextProps){
-    let shownStateClass = nextProps.store.addEntry.displayAddEntryForm ? 'shown' : 'hidden';
-    let classes = `AddEntry ${shownStateClass}`;
+  handleOpen = () => {
+    this.setState({open: true});
+  };
 
+  handleClose = () => {
     this.setState({
-      classes: classes
+      title: '',
+      description: '',
+      submitDisabled: false,
+      titleValid: true,
+      open: false,
+      labels: []
     });
+  };
+  
+  handleChange(event) {
+    switch(event.target.id){
+      case 'title': {
+        var title = event.target.value
+        this.setState({
+          title: title
+        });
+        if(title.length === 0){
+          this.setState({ titleValid: false, submitDisabled: true });
+        } else {
+          this.setState({ titleValid: true, submitDisabled: false });
+        }
+        break;
+      }
+      case 'description': {
+        var description = event.target.value 
+        this.setState({
+          description: description
+        });
+        break;
+      }
+      default: {
+        break;
+      }
+    }
   }
 
   handleSubmit = (e) => {
     e.preventDefault()
 
     var entry = {
-        title: this.title.value,
-        description: this.description.value,
+        title: this.state.title,
+        description: this.state.description,
         date: (new Date()).toString(),
         images: [],
         labels: this.state.labels
     };
-    
-    this.props.dispatch(action.saveEntry(entry, this.props.store.user.uid));
-    // clear inputs
-    this.title.value = '';
-    this.description.value = '';
 
-    // hide the overlay
-    this.hideAddEntryForm();
+    this.props.dispatch(action.saveEntry(entry, this.props.store.user.uid));
+    this.handleClose();
   }
 
   toggleLabel(e){
@@ -58,34 +93,70 @@ export default class AddEntry extends Component {
       current.push(e.target.id);
     }
 
-    this.setState({
-      labels: current
-    });
-  }
-
-  hideAddEntryForm(){
-    this.setState({
-      labels: []
-    })
-    this.props.dispatch(addEntryFormAction.hideAddEntry());
+    this.setState({ labels: current });
   }
 
   render () {
+    const actions = [
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        onTouchTap={this.handleClose}
+      />,
+      <FlatButton
+        label="Submit"
+        primary={true}
+        keyboardFocused={true}
+        onTouchTap={this.handleSubmit}
+        disabled={this.state.submitDisabled ? true : false}
+      />,
+    ];
+
     return (
-        <div className={ this.state.classes }>
-            <span className="close" onClick={this.hideAddEntryForm.bind(this)}> X </span>
-            <div className="title">Create a new entry</div>
+      <div className="topbar-link add-entry-wrap">
+        <FlatButton 
+        onTouchTap={this.handleOpen} 
+        children={
+          <div>
+            <svg className="icon icon-add"><use xlinkHref={`${sprites}#icon-add`}></use></svg>
+            <span>Add entry</span>
+          </div>
+        }
+        />
+        <Dialog
+          title="Add entry"
+          actions={actions}
+          modal={true}
+          open={this.state.open}
+          onRequestClose={this.handleClose}
+          autoScrollBodyContent={true}
+        >
+          <div>
             <form onSubmit={this.handleSubmit}>
-                <input type="text" placeholder="title" ref={(title) => this.title = title} />
-                <input type="text" placeholder="description" ref={(description) => this.description = description} />
-                <div className="labels">
-                  {this.props.store.labels.list.map(function(label){
-                    return ( <span onClick={this.toggleLabel.bind(this)} key={label.id} id={label.id} > {label.title} </span>)
-                  }.bind(this))}
-                </div>
-                <button type="submit" className="btn btn-primary">Submit Entry</button>
+              <TextField
+                hintText="Title"
+                fullWidth={true}
+                onChange={(event) => this.handleChange(event)}
+                id="title"
+                errorText={!this.state.titleValid ? 'This field is required' : null }
+              /> <br />
+
+              <TextField
+                hintText="Description"
+                fullWidth={true}
+                onChange={(event) => this.handleChange(event)}
+                id="description"
+              /> <br />
+                
+              <div className="labels">
+                {this.props.store.labels.list.map(function(label){
+                  return ( <span onClick={this.toggleLabel.bind(this)} key={label.id} id={label.id} > {label.title} </span>)
+                }.bind(this))}
+              </div>
             </form>
-        </div>
+          </div>
+        </Dialog>
+      </div>
     )
   }
 }
