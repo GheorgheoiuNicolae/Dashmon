@@ -6,7 +6,7 @@
   background-color: #fff;
 	box-shadow: 0px 0px 15px 0px #bdbdbd;
   position: absolute;
-  z-index: 1;
+  z-index: 2;
 
   display: flex;
   flex-direction: row;
@@ -27,12 +27,18 @@
     cursor: pointer;
     height: 100%;
 
+    button {
+      height: 100%;
+      min-height: 100%;
+      padding: 0 10px !important;
+      border-radius: 0px!important;
+    }
     &.menu-toggler {
       width: 50px;
     }
-    &.sort-entries, &.add-entry {
-      // margin-left: 10px;
-      padding: 0 10px;
+    &.sort-entries-wrap .sort-entries, &.add-entry-wrap .add-entry {
+      display: flex;
+      align-items: center;
       .icon {
         margin-right: 5px;
       }
@@ -41,8 +47,29 @@
       fill: @green;
     }
   }
-  .account-dropdown {
+  button {
+    height: 100%;
+    min-height: 100%;
+    padding: 0 10px !important;
+    border-radius: 0px!important;
+    &>div {
+      display: flex;
+      align-items: center;
+    }
+  }
+  .user-account-dropdown {
+    height: 100%;
     display: flex;
     align-items: center;
+    
+    .username {
+      display: flex;
+      padding: 0 5px;
+      .avatar {
+        padding: 0 10px;
+        display: flex;
+        align-items: center;
+      }
+    }
   }
 }
