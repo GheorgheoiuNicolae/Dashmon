@@ -21,6 +21,8 @@ export default class AddEntry extends Component {
     this.setState({
       classes: '',
       labels_initial_load: true,
+      // labels to display when the user picks them
+      presentationLabels: [],
       labels: [],
       open: false,
       titleValid: true,
@@ -42,7 +44,8 @@ export default class AddEntry extends Component {
       submitDisabled: false,
       titleValid: true,
       open: false,
-      labels: []
+      labels: [],
+      presentationLabels: []
     });
   };
   
@@ -80,7 +83,7 @@ export default class AddEntry extends Component {
 
     var entry = {
         title: this.state.title,
-        description: this.state.description,
+        description: this.state.description || null,
         date: (new Date()).toString(),
         images: [],
         labels: this.state.labels
@@ -91,17 +94,22 @@ export default class AddEntry extends Component {
   }
 
 
-  toggleLabel(id){
+  toggleLabel(label){
     let current = this.state.labels;
+    let presentationLabels = this.state.presentationLabels;
 
-    let idx = current.indexOf(id);
+    let idx = current.indexOf(label.id);
+    let idx2 = presentationLabels.indexOf(label);
+
     if(idx !== -1){
       current.splice(idx, 1);
+      presentationLabels.splice(idx2, 1);
     } else {
-      current.push(id);
+      presentationLabels.push(label)
+      current.push(label.id);
     }
 
-    this.setState({ labels: current }, function(){ console.log(this.state);});
+    this.setState({ labels: current, presentationLabels: presentationLabels }, function(){ console.log(this.state);});
   }
 
 
@@ -209,7 +217,7 @@ export default class AddEntry extends Component {
                           checkedIcon={ <div className="check-icon"><svg className="icon icon-check"><use xlinkHref={`${sprites}#icon-check`}></use></svg></div> }
                           uncheckedIcon={ <div></div> }
                           checked={this.state.labels.indexOf(label.id) ? false : true}
-                          onCheck={(e) => this.toggleLabel(label.id)}
+                          onCheck={(e) => this.toggleLabel(label)}
                           label={
                             <div className="label">
                               <div className="label-color" style={{backgroundColor: label.color, width: '5px', height: '5px'}}></div>
@@ -226,9 +234,10 @@ export default class AddEntry extends Component {
               </Popover>
                 
               <div className="labels">
-                {this.props.store.labels.list.map(function(label){
-                  return ( <span onClick={this.toggleLabel.bind(this)} key={label.id} id={label.id} > {label.title} </span>)
-                }.bind(this))}
+
+                {this.state.presentationLabels.map(function(label){
+                  return ( <div className="presentation-label" style={{backgroundColor: label.color, color: '#fff'}} key={label.id} id={label.id} >{label.title}</div>)
+                })}
               </div>
             </form>
           </div>

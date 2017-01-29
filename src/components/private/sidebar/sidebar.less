@@ -1,0 +1,27 @@
+.SideBar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    background: rebeccapurple;
+    z-index: 3;
+    
+    svg {
+        fill: #fff;
+    }
+    span {
+        color: #fff;
+    }
+    a {
+        text-decoration: none;
+    }
+    &.collapsed {
+        width: 50px;
+        span {
+            display: none;
+        }
+    }
+    &.expanded {
+        width: 230px;
+    }
+}
