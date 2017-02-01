@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import sprites from '../../../assets/sprites.svg';
-import EntryLabels from './_labels';
-
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
@@ -15,7 +12,7 @@ import * as action from '../../../actions/entry';
     store: store
   }
 })
-export default class AddEntry extends Component {
+export default class EntrySingle extends Component {
   componentWillMount(){
     this.setState({
       classes: '',
@@ -137,19 +134,11 @@ export default class AddEntry extends Component {
     ];
 
     return (
-      <div className="topbar-link add-entry-wrap">
-        <FlatButton 
-          onTouchTap={this.handleOpen} 
-          children={
-            <div>
-              <svg className="icon icon-add"><use xlinkHref={`${sprites}#icon-add`}></use></svg>
-              <span>Add entry</span>
-            </div>
-          }
-        />
+      <div className='EntrySingle'>
+        <h3 className="title" onTouchTap={this.handleOpen} >{this.props.entry.title}</h3>
 
         <Dialog
-          title="Add entry"
+          title="Edit entry"
           actions={actions}
           modal={true}
           open={this.state.open}
@@ -172,14 +161,8 @@ export default class AddEntry extends Component {
                 onChange={(event) => this.handleChange(event)}
                 id="description"
               /> <br />
-
-              <EntryLabels updateLabelList={this.updateLabelList.bind(this)} />
-                
               <div className="labels">
 
-                {this.state.presentationLabels.map(function(label){
-                  return ( <div className="presentation-label" style={{backgroundColor: label.color, color: '#fff'}} key={label.id} id={label.id} >{label.title}</div>)
-                })}
               </div>
             </form>
           </div>

@@ -1,5 +1,4 @@
 import groupArray from 'group-array';
-
 export function parseObject(obj){
   var arr = []
   for (let key in obj) {
