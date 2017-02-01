@@ -36,7 +36,7 @@ export function saveEntry(data, uid){
 
 export function removeEntry(uid, entryId){
     return dispatch => {
-         let entryRef = ref.child(`entries/${uid}/${entryId}`);
+        let entryRef = ref.child(`entries/${uid}/${entryId}`);
         entryRef.remove().then( (res) => {
             dispatch({
                 type: 'REMOVE_ENTRY',
