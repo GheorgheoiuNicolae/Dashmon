@@ -11,6 +11,7 @@
     "group-array": "^0.3.1",
     "lodash": "^4.17.4",
     "material-ui": "^0.16.7",
+    "moment": "^2.17.1",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
     "react-redux": "^5.0.1",

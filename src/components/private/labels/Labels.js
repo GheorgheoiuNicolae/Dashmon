@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import * as action from '../../../actions/label';
-import Label from '../label/Label';
+import Label from './label/Label';
 
 @connect((store) => {
   return {
