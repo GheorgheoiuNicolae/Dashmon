@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import * as action from '../../../actions/label';
+import * as action from '../../../../actions/label';
 
 export default class Label extends Component {
   removeLabel(){

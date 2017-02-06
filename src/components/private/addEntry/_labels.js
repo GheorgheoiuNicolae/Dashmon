@@ -3,13 +3,11 @@ import { connect } from 'react-redux';
 
 import sprites from '../../../assets/sprites.svg';
 
-import Dialog from 'material-ui/Dialog';
 import Popover, { PopoverAnimationVertical } from 'material-ui/Popover';
 import FlatButton from 'material-ui/FlatButton';
-import TextField from 'material-ui/TextField';
 import Checkbox from 'material-ui/Checkbox';
 
-import * as action from '../../../actions/entry';
+// import * as action from '../../../actions/entry';
 
 @connect((store) => {
   return {
