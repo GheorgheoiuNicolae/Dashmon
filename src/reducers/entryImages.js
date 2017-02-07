@@ -35,10 +35,10 @@ export default function reducer(state={
 
     case 'UPDATE_IMAGE_URL': {
       let images = state.images;
-      images.push({fileName: action.imageName, url: action.payload})
+      images.push({url: action.payload, fileName: action.imageName})
       return {...state, 
         uploadProgress: null, 
-        isUploading: false, 
+        isUploading: false,
         uploadError: false,
         downloadError: null,
         images: images
@@ -63,8 +63,11 @@ export default function reducer(state={
         images: images
       }
     }
-    case 'UPDATE_ENTRY_WITH_IMAGE_URL': {
-      
+
+    case 'CLEAR_IMAGES_FROM_STORE': {
+      return {...state,
+        images: []
+      }
     }
 
     default: {

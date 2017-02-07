@@ -59,21 +59,28 @@ export function deleteImage(uid, image){
 }
 
 
-export function getImageFromFirebase(uid, entryId, filename){
-  console.log('getImageFromFirebase');
+export function getImageFromFirebase(uid, filename){
   let imageRef = storage.ref().child(`images/${uid}/${filename}`);
   return dispatch => {
     imageRef.getDownloadURL().then(function(url){
-      console.log('action - image url: ', url)
+      console.log('got url: ', url)
       dispatch({
-        type: 'UPDATE_ENTRY_WITH_IMAGE_URL',
+        type: 'UPDATE_IMAGE_URL',
         payload: url
       });
     }).catch(function(error) {
+      console.log('cought error: ', error)
       dispatch({
         type: 'DOWNLOAD_IMAGE_ERROR',
         payload: error
       });
     });
+  }
+}
+
+export function clearImagesFromStore(){
+  return {
+    type: 'CLEAR_IMAGES_FROM_STORE',
+    payload: null
   }
 }

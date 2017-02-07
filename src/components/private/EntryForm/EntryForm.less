@@ -1,3 +1,44 @@
 .entry-form {
-    border: 1px solid coral;
+    .images {
+        padding: 20px 0;
+        .image-upload {
+            padding-bottom: 20px;
+        }
+        .entry-images {
+            display: flex;
+            flex-direction: row;
+            .image-box {
+                position: relative;
+                margin-right: 20px;
+                .thumbnail {
+                    width: 150px;
+                    height: 150px;
+                    overflow: hidden;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    img {
+                        height: 100%;
+                    }
+                }
+                span.delete-image {
+                    position: absolute;
+                    top: -9px;
+                    right: -9px;
+                    display: block;
+                    width: 20px;
+                    height: 20px;
+                    background-color: crimson;
+                    border-radius: 100%;
+                    padding: 2px 3px;
+                    box-sizing: border-box;
+
+                    svg {
+                        fill: #fff;
+                        width: .8em;
+                    }
+                }
+            }
+        }
+    }
 }

@@ -41,7 +41,6 @@ export default class EntrySingle extends Component {
   }
 
   getEntryData(entry){
-    console.log('getEntryData', entry)
     this.setState({entry: entry});
   }
 
