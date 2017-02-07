@@ -15,12 +15,12 @@ export default class EntryForm extends Component {
   componentWillMount(){
     // populate the state as EntryForm is in edit mode
     if(this.props.entry){
-      this.setState({...this.props.entry, titleValid: true, editMode: true}, function(){
-        console.log('this.props.entry', this.props.entry, this.state);
-      });
+      console.log('is editing');
+      this.setState({...this.props.entry, titleValid: true, editMode: true});
     }
     // else the form is used to create a new entry
     else {
+      console.log('is adding a new entry');
       this.setState({
         labelIds: [],
         images: [],
@@ -86,6 +86,7 @@ export default class EntryForm extends Component {
   }
 
   updateEntryImageList(images){
+    console.log('updateEntryImageList: ', images)
     if(images){
       if(this.state.images.length !== images.length){
         this.setState({
@@ -126,7 +127,8 @@ export default class EntryForm extends Component {
           <EntryImages 
             uid={this.props.store.user.uid} 
             dispatch={this.props.dispatch}
-            updateEntryImageList={this.updateEntryImageList.bind(this)} 
+            updateEntryImageList={this.updateEntryImageList.bind(this)}
+            images={this.state.images}
           />
         </form>
       </div>

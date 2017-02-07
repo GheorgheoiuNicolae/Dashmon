@@ -16,10 +16,20 @@ import Checkbox from 'material-ui/Checkbox';
 })
 export default class EntryLabels extends Component {
   componentWillMount(){
-    this.setState({
-      labels: [],
-      labelsPopoverOpen: false
-    });
+    console.log('EntryLabels: ', this);
+    if(this.props.labels){
+      console.log('edit entry');
+      this.setState({
+        labels: this.props.labels,
+        labelsPopoverOpen: false
+      });
+    } else {
+      console.log('add entry');
+      this.setState({
+        labels: [],
+        labelsPopoverOpen: false
+      });
+    }
   }
 
   toggleLabel(label){
