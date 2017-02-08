@@ -15,12 +15,10 @@ export default class EntryForm extends Component {
   componentWillMount(){
     // populate the state as EntryForm is in edit mode
     if(this.props.entry){
-      console.log('is editing');
       this.setState({...this.props.entry, titleValid: true, editMode: true});
     }
     // else the form is used to create a new entry
     else {
-      console.log('is adding a new entry');
       this.setState({
         labelIds: [],
         images: [],
@@ -86,7 +84,7 @@ export default class EntryForm extends Component {
   }
 
   updateEntryImageList(images){
-    console.log('updateEntryImageList: ', images)
+    console.log('images: ', images);
     if(images){
       if(this.state.images.length !== images.length){
         this.setState({

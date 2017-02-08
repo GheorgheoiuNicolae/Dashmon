@@ -20,17 +20,16 @@ export function uploadImage(uid, image){
           })
       },
 
-      function complete(res){
+      function complete(){
           dispatch({
               type: 'UPLOAD_COMPLETE',
               payload: ''
             });
           imageRef.getDownloadURL().then(function(url){
-            console.log('action - image url: ', url)
             dispatch({
               type: 'UPDATE_IMAGE_URL',
               payload: url,
-              imageName: image.name
+              fileName: image.name
             });
           }).catch(function(error) {
             dispatch({
@@ -63,10 +62,10 @@ export function getImageFromFirebase(uid, filename){
   let imageRef = storage.ref().child(`images/${uid}/${filename}`);
   return dispatch => {
     imageRef.getDownloadURL().then(function(url){
-      console.log('got url: ', url)
       dispatch({
         type: 'UPDATE_IMAGE_URL',
-        payload: url
+        payload: url,
+        fileName: filename
       });
     }).catch(function(error) {
       console.log('cought error: ', error)
