@@ -35,7 +35,7 @@ export default class AddEntry extends Component {
 
 
   handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     this.props.dispatch(action.saveEntry(this.state.entry, this.props.store.user.uid));
     this.handleClose();
   }

@@ -1,4 +1,4 @@
-import { ref, storage } from '../config/constants';
+import { ref } from '../config/constants';
 import { parseObject, matchLabelsToEntries } from '../helpers/utils';
 
 export function getEntries(uid, labels){

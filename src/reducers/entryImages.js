@@ -35,7 +35,8 @@ export default function reducer(state={
 
     case 'UPDATE_IMAGE_URL': {
       let images = state.images;
-      images.push({url: action.payload, fileName: action.imageName})
+      images.push({url: action.payload, fileName: action.fileName})
+      console.log('UPDATE_IMAGE_URL', images)
       return {...state, 
         uploadProgress: null, 
         isUploading: false,

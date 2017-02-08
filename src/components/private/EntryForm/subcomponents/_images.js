@@ -13,6 +13,7 @@ export default class EntryImages extends Component {
   componentWillMount(){
     // component will receive 'images' prop if an entry is beeing edited
     if(this.props.images){
+      console.log('componentWillMount: ', this.props.images)
       // download and set current entry's images to store
       for(let i = 0; i < this.props.images.length; i++){
         this.props.dispatch(action.getImageFromFirebase(this.props.uid, this.props.images[i].fileName));
@@ -43,12 +44,17 @@ export default class EntryImages extends Component {
   }
 
   componentWillReceiveProps(newProps){
+    console.log('newProps.store.images: ', newProps.store.images);
     this.props.updateEntryImageList(newProps.store.images);
   }
 
   deleteImage = (image) => {
     console.log('deleteImage', image);
-    this.props.dispatch(action.deleteSingleImage(image));
+    this.props.dispatch(action.deleteImage(this.props.uid, image));
+  }
+
+  removeImageFromEntry(image){
+    console.log('removeImageFromEntry', image)
   }
 
   render () {
@@ -63,7 +69,7 @@ export default class EntryImages extends Component {
             return (
               <div className="image-box" key={index}>
                 <div className="thumbnail">
-                  <img src={image.url} alt="Entry gallery image" />
+                  <img src={image.url} alt="Entry gallery" />
                 </div>
                 <span className="delete-image" onClick={()=> this.deleteImage(image)} >
                   <svg className="icon icon-close"><use xlinkHref={`${sprites}#icon-close`}></use></svg>
