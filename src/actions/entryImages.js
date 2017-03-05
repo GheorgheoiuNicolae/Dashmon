@@ -1,4 +1,7 @@
 import { storage } from '../config/constants';
+import * as entryActions from './entry.js';
+
+console.log('entryActions: ', entryActions);
 
 export function uploadImage(uid, image){
   let imageRef = storage.ref().child(`images/${uid}/${image.name}`);
@@ -42,19 +45,37 @@ export function uploadImage(uid, image){
   }
 }
 
-export function deleteImage(uid, image){
-  let imageRef = storage.ref().child(`images/${uid}/${image.fileName}`);
-  return dispatch => {
-    imageRef.delete().then(function() {
-      // File deleted successfully
+export function deleteImage(uid, entry, image){
+  // the user deleted an image from an existing entry
+  if(entry){
+    // find entry to remove
+    // for(let i = 0; i < entry.images.length; i++){
+    //   if(entry.images[i].fileName === image.fileName){
+    //     let idx = entry.images.indexOf(entry.images[i]);
+    //     entry.images.splice(idx, 1);
+    //   }
+    // }
+    // entryActions.editEntry(uid, entry);
+    return dispatch => {
       dispatch({
-        type: "REMOVE_IMAGE_FROM_STORE",
-        payload: image
-      })
-    }).catch(function(error) {
-      console.log('error deleting image');
-    });
+        type: "REMOVE_IMAGE_FROM_STORE_AND_ENTRY",
+        payload: {uid: uid, entry: entry, image: image}
+      });
+    }
   }
+  // the user deleted an image from 'Add new entry'
+  // let imageRef = storage.ref().child(`images/${uid}/${image.fileName}`);
+  // return dispatch => {
+  //   imageRef.delete().then(function() {
+  //     // File deleted successfully
+  //     dispatch({
+  //       type: "REMOVE_IMAGE_FROM_STORE",
+  //       payload: image
+  //     })
+  //   }).catch(function(error) {
+  //     console.log('error deleting image');
+  //   });
+  // }
 }
 
 

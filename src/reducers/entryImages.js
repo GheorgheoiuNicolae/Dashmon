@@ -65,6 +65,13 @@ export default function reducer(state={
       }
     }
 
+    case 'REMOVE_IMAGE_FROM_STORE_AND_ENTRY': {
+      let payload = action.payload;
+      console.log('payload: ', payload, state)
+      return {...state
+      }
+    }
+
     case 'CLEAR_IMAGES_FROM_STORE': {
       return {...state,
         images: []

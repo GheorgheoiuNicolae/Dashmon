@@ -15,7 +15,6 @@ export function getEntries(uid, labels){
     }
 }
 
-// Show the form to add an entry
 export function saveEntry(data, uid){
     return dispatch => {
         let entriesRef = ref.child(`entries/${uid}`).push();
@@ -42,6 +41,22 @@ export function removeEntry(uid, entryId){
                 type: 'REMOVE_ENTRY',
                 payload: null
             });
+        }).catch(() => {
+            console.log('the entry was not removed for some reason...')
+        })
+    }
+}
+
+export function editEntry(uid, newData, image){
+    console.log('new entry data: ', newData);
+    return dispatch => {
+        let entryRef = ref.child(`entries/${uid}/${newData.id}`);
+        entryRef.set({...newData}).then( (res) => {
+            console.log('entry was updated', newData);
+            // dispatch({
+            //     type: 'REMOVE_ENTRY',
+            //     payload: null
+            // });
         }).catch(() => {
             console.log('the entry was not removed for some reason...')
         })

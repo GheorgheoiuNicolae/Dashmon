@@ -15,6 +15,7 @@ export default class EntryForm extends Component {
   componentWillMount(){
     // populate the state as EntryForm is in edit mode
     if(this.props.entry){
+      console.log('editing entry: ', this.props.entry);
       this.setState({...this.props.entry, titleValid: true, editMode: true});
     }
     // else the form is used to create a new entry
@@ -127,6 +128,7 @@ export default class EntryForm extends Component {
             dispatch={this.props.dispatch}
             updateEntryImageList={this.updateEntryImageList.bind(this)}
             images={this.state.images}
+            entry={this.props.entry}
           />
         </form>
       </div>
