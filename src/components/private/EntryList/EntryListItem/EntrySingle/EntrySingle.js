@@ -16,6 +16,7 @@ import * as action from '../../../../../actions/entry';
 })
 export default class EntrySingle extends Component {
   componentWillMount(){
+    console.log('EntrySingle!');
     this.setState({
       open: false,
       submitDisabled: false,
@@ -33,11 +34,15 @@ export default class EntrySingle extends Component {
     });
   };
 
-
   handleSubmit = (e) => {
+    console.log('submiting: ', this.state.entry)
     e.preventDefault()
-    this.props.dispatch(action.saveEntry(this.state.entry, this.props.store.user.uid));
-    this.handleClose();
+    if(this.props.entry){
+      // save entry edits
+      console.log('save entry edits')
+      this.props.dispatch(action.editEntry(this.props.store.user.uid, this.state.entry, ));
+      this.handleClose();
+    }    
   }
 
   getEntryData(entry){
