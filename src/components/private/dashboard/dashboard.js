@@ -55,7 +55,6 @@ export default class Dashboard extends Component {
         <div className="dashboard-content">
           {this.props.children}
         </div>
-        
       </div>
     )
   }

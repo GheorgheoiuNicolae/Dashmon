@@ -13,8 +13,8 @@ const store = createStore(rootReducer, middleware);
 export const history = syncHistoryWithStore(browserHistory, store);
 
 export default store;
-// store.subscribe(function(){
-//     console.log('store state:', store.getState());
-// });
+store.subscribe(function(){
+    console.log('store state:', store.getState());
+});
 
 // , window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()

@@ -86,7 +86,7 @@ export default class EntryForm extends Component {
 
   updateEntryImageList(images){
     console.log('images: ', images);
-    if(images){
+    if(images && this.state.images){
       if(this.state.images.length !== images.length){
         this.setState({
           images: images
