@@ -59,12 +59,13 @@ export default class EntryForm extends Component {
 
   makeEntry(){
     let entry = {
+        id: this.state.id,
         title: this.state.title,
         description: this.state.description || null,
         date: (new Date()).toString(),
         created_at: (new Date()).toString(),
-        labels: this.state.labelIds,
-        images: this.state.images,
+        labels: this.state.labelIds || [],
+        images: this.state.images || [],
         recurrent: false,
         repeat_every: 0 // numbers of days to repeat
     };
@@ -118,7 +119,7 @@ export default class EntryForm extends Component {
             id="description"
           />
 
-          <EntryLabels 
+          {/* <EntryLabels 
             labels={this.state.labels} 
             updateLabelList={this.updateLabelList.bind(this)} 
           />
@@ -129,7 +130,7 @@ export default class EntryForm extends Component {
             updateEntryImageList={this.updateEntryImageList.bind(this)}
             images={this.state.images}
             entry={this.props.entry}
-          />
+          />*/}
         </form>
       </div>
     )

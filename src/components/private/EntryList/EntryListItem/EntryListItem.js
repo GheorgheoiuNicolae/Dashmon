@@ -8,8 +8,6 @@ import EntrySingle from './EntrySingle/EntrySingle';
 
 export default class Entry extends Component {
   removeEntry(){
-    // confirm remove dialog
-    console.log('remove entry confirmed');
     this.props.dispatch(action.removeEntry(this.props.uid, this.props.data.id));
   }
 
