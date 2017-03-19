@@ -18,6 +18,7 @@ export function getEntries(uid, labels){
 export function saveEntry(data, uid){
     return dispatch => {
         let entriesRef = ref.child(`entries/${uid}`).push();
+        console.log('data: ', data);
         entriesRef.set({
           title: data.title,
           description: data.description,
@@ -51,6 +52,8 @@ export function editEntry(uid, newData, image){
     console.log('new entry data: ', newData);
     return dispatch => {
         let entryRef = ref.child(`entries/${uid}/${newData.id}`);
+        console.log('newData: ', newData, image);
+
         entryRef.set({...newData}).then( (res) => {
             console.log('entry was updated', newData);
             // dispatch({

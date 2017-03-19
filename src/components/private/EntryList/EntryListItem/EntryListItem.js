@@ -3,6 +3,7 @@ import moment from 'moment';
 import * as action from '../../../../actions/entry';
 import sprites from '../../../../assets/sprites.svg';
 
+import ConfirmRemoveEntryDialog from './confirmRemoveEntry';
 import EntrySingle from './EntrySingle/EntrySingle';
 
 export default class Entry extends Component {
@@ -40,7 +41,10 @@ export default class Entry extends Component {
           <svg className="icon icon-room"><use xlinkHref={`${sprites}#icon-room`}></use></svg>
         </div>
         
-        <span className="remove" onClick={this.removeEntry.bind(this)}>X</span>
+        <ConfirmRemoveEntryDialog 
+          removeEntry={this.removeEntry.bind(this)} 
+          entryTitle={this.props.data.title}
+        />
       </div>
     )
   }
