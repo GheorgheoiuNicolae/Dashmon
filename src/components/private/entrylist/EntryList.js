@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 import { connect } from 'react-redux';
-import Entry from '../entry/Entry';
+import EntryListItem from './EntryListItem/EntryListItem';
 
 @connect((store) => {
   return {
@@ -8,16 +9,14 @@ import Entry from '../entry/Entry';
   }
 })
 export default class EntryList extends Component {
-  componentWillMount(){
-  }
   render () {
     let mappedDays = this.props.store.entries.list.map((day, index) => {
       let mappedEntries = day.entries.map( (entry) => {
-        return <Entry data={entry} key={entry.id} uid={this.props.store.user.uid} dispatch={this.props.dispatch} />
+        return <EntryListItem data={entry} key={entry.id} uid={this.props.store.user.uid} dispatch={this.props.dispatch} />
       })
       return (
         <div key={index}>
-          <h3>{day.date}</h3>
+          <h3>{moment(day.date).format("dddd, D")} {moment(day.date).format("MMMM YYYY")}</h3>
           { mappedEntries }
         </div>
       )

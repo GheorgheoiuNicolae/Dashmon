@@ -8,7 +8,7 @@ import store, { history } from './stores/store';
 import Login from './components/public/login/Login';
 import Register from './components/public/register/Register';
 import Dashboard from './components/private/dashboard/dashboard';
-import EntryList from './components/private/entrylist/EntryList';
+import EntryList from './components/private/EntryList/EntryList';
 import Labels from './components/private/labels/Labels';
 
 var injectTapEventPlugin = require("react-tap-event-plugin");

@@ -1,5 +1,4 @@
 import groupArray from 'group-array';
-
 export function parseObject(obj){
   var arr = []
   for (let key in obj) {
@@ -33,6 +32,9 @@ function splitEntriesByDay(entries){
   for(let i = 0; i < entries.length; i++){
     let date = new Date(entries[i].date);
     let YMD = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
+    // add timestamp as moment requires a valid ISO date
+    entries[i].timestamp = new Date(entries[i].date).getTime();
+    // add formated date to sort the entries easier
     entries[i].formatedDate = YMD;
   }
 
@@ -44,7 +46,7 @@ function splitEntriesByDay(entries){
       let newEntries = [...grouped[key]];
 
       arr.push({
-        date: key,
+        date: new Date(key),
         entries: newEntries
       });
       newEntries = [];

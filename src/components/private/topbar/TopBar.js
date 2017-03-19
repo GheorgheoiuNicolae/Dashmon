@@ -52,16 +52,6 @@ export default class TopBar extends Component {
   render (){
     return (
       <div className='TopBar'>
-        <div className="topbar-link menu-toggler-wrap">
-          <FlatButton
-            className="menu-toggler-button"
-            children={
-              <div className="menu-toggler">
-                <svg className="icon icon-sort"><use xlinkHref={`${sprites}#icon-sort`}></use></svg>
-              </div>
-            }
-          />
-        </div>
         <div className="topbar-link sort-entries-wrap">
           <FlatButton
             className="sort-entries-button"
