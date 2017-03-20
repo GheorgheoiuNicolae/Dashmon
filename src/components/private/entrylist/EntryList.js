@@ -12,7 +12,7 @@ export default class EntryList extends Component {
   render () {
     let mappedDays = this.props.store.entries.list.map((day, index) => {
       let mappedEntries = day.entries.map( (entry) => {
-        return <EntryListItem data={entry} key={entry.id} uid={this.props.store.user.uid} dispatch={this.props.dispatch} />
+        return <EntryListItem entry={entry} key={entry.id} />
       })
       return (
         <div key={index}>

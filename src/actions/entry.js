@@ -65,3 +65,11 @@ export function editEntry(uid, newData, image){
         })
     }
 }
+
+export function setCurrentEntry(data){
+    console.log('action data', data)
+    return {
+        type: 'ADD_ENTRY_DATA',
+        payload: data
+    }
+}

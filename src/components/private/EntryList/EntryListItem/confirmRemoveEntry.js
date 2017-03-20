@@ -20,7 +20,6 @@ export default class ConfirmRemoveEntryDialog extends React.Component {
   };
 
   confirm = () => {
-    console.log('confirm!');
     this.props.removeEntry();
     this.setState({open: false});
   };

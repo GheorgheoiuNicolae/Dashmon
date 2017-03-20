@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import * as action from '../../../actions/entry';
 import EntryLabels from './subcomponents/_labels';
 import EntryImages from './subcomponents/_images';
 
@@ -14,15 +15,23 @@ import TextField from 'material-ui/TextField';
 export default class EntryForm extends Component {
   componentWillMount(){
     // populate the state as EntryForm is in edit mode
-    if(this.props.entry){
-      console.log('editing entry: ', this.props.entry);
-      this.setState({...this.props.entry, titleValid: true, editMode: true});
+    if(this.props.editMode){
+      console.log('edit', this)
+      this.setState({...this.props.store.currentEntry, titleValid: true, editMode: true});
     }
+    
     // else the form is used to create a new entry
     else {
       this.setState({
         labelIds: [],
         images: [],
+        title: '',
+        description: '',
+        date: (new Date()).toString(),
+        created_at: (new Date()).toString(),
+        labels: [],
+        images: [],
+
         titleValid: true,
         editMode: false
       });
@@ -66,11 +75,11 @@ export default class EntryForm extends Component {
         created_at: (new Date()).toString(),
         labels: this.state.labelIds || [],
         images: this.state.images || [],
-        recurrent: false,
-        repeat_every: 0 // numbers of days to repeat
     };
+    this.setState({ entry: entry });
+    this.props.store.dispatch(action.setCurrentEntry(entry));
     // send the entry object to parent component
-    this.props.getEntryData(entry);
+    // this.props.getEntryData(entry);
   }
   
   updateLabelList(labels){
@@ -86,7 +95,6 @@ export default class EntryForm extends Component {
   }
 
   updateEntryImageList(images){
-    console.log('images: ', images);
     if(images && this.state.images){
       if(this.state.images.length !== images.length){
         this.setState({

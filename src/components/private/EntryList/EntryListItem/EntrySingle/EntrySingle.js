@@ -16,15 +16,15 @@ import * as action from '../../../../../actions/entry';
 })
 export default class EntrySingle extends Component {
   componentWillMount(){
-    console.log('EntrySingle!', this.props);
+    console.log('EntrySingle', this.props)
     this.setState({
       open: false,
-      submitDisabled: false,
-      entry: {}
+      submitDisabled: false
     });
   }
 
   handleOpen = () => {
+    this.props.dispatch(action.setCurrentEntry(this.props.entry));
     this.setState({open: true});
   };
 
@@ -35,18 +35,14 @@ export default class EntrySingle extends Component {
   };
 
   handleSubmit = (e) => {
-    console.log('submiting: ', this.state.entry)
-    e.preventDefault()
-    // save entry edits
-    console.log('save entry edits')
-    this.props.dispatch(action.editEntry(this.props.store.user.uid, this.state.entry, ));
+    e.preventDefault();
+    this.props.dispatch(action.editEntry(this.props.store.user.uid, this.props.store.currentEntry));
     this.handleClose();    
   }
 
-  getEntryData(entry){
-    console.log('getEntryData: ', entry);
-    this.setState({entry: entry});
-  }
+  // getEntryData(entry){
+  //   this.setState({entry: entry});
+  // }
 
   render () {
     const actions = [
@@ -77,10 +73,7 @@ export default class EntrySingle extends Component {
           autoScrollBodyContent={true}
         >
           
-          <EntryForm 
-            entry={this.props.entry} 
-            getEntryData={this.getEntryData.bind(this)} 
-          />
+          <EntryForm editMode={true} />
         
         </Dialog>
       </div>
