@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-// import sprites from '../../../../../assets/sprites.svg';
 import EntryForm from '../../../EntryForm/EntryForm';
 
 import Dialog from 'material-ui/Dialog';
@@ -11,12 +10,12 @@ import * as action from '../../../../../actions/entry';
 
 @connect((store) => {
   return {
-    store: store
+    currentEntry: store.currentEntry,
+    user: store.user
   }
 })
 export default class EntrySingle extends Component {
   componentWillMount(){
-    console.log('EntrySingle', this.props)
     this.setState({
       open: false,
       submitDisabled: false
@@ -36,13 +35,12 @@ export default class EntrySingle extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.dispatch(action.editEntry(this.props.store.user.uid, this.props.store.currentEntry));
+    const { user, currentEntry } = this.props;
+
+    this.props.dispatch(action.editEntry(user.uid, currentEntry));
     this.handleClose();    
   }
 
-  // getEntryData(entry){
-  //   this.setState({entry: entry});
-  // }
 
   render () {
     const actions = [

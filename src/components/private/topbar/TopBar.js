@@ -21,7 +21,6 @@ import AddEntry from '../addEntry/AddEntry';
 export default class TopBar extends Component {  
   constructor(props) {
     super(props);
-
     this.state = {
       open: false,
       style: {

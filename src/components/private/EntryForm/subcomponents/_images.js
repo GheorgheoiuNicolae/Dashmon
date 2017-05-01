@@ -43,7 +43,6 @@ export default class EntryImages extends Component {
   }
 
   componentWillReceiveProps(newProps){
-    console.log('new props', newProps)
     this.props.updateEntryImageList(newProps.store.images);
   }
 

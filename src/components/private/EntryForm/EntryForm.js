@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
 import * as action from '../../../actions/entry';
-import EntryLabels from './subcomponents/_labels';
-import EntryImages from './subcomponents/_images';
-
 import TextField from 'material-ui/TextField';
 
 @connect((store) => {
@@ -14,49 +10,26 @@ import TextField from 'material-ui/TextField';
 })
 export default class EntryForm extends Component {
   componentWillMount(){
-    // populate the state as EntryForm is in edit mode
     if(this.props.editMode){
-      console.log('edit', this)
-      this.setState({...this.props.store.currentEntry, titleValid: true, editMode: true});
+      const { currentEntry } = this.props.store;
+      this.setState({...currentEntry, editMode: true});
     }
-    
-    // else the form is used to create a new entry
     else {
-      this.setState({
-        labelIds: [],
-        images: [],
-        title: '',
-        description: '',
-        date: (new Date()).toString(),
-        created_at: (new Date()).toString(),
-        labels: [],
-        images: [],
-
-        titleValid: true,
-        editMode: false
-      });
+      this.setState({ editMode: false })
     }
   }
 
-  // Handle change for title and description
   handleChange(event) {
     switch(event.target.id){
       case 'title': {
-        var title = event.target.value
         this.setState({
-          title: title
-        });
-        if(title.length === 0){
-          this.setState({ titleValid: false }, () => this.makeEntry());
-        } else {
-          this.setState({ titleValid: true }, () => this.makeEntry());
-        }
+          title: event.target.value
+        }, () => this.makeEntry());
         break;
       }
       case 'description': {
-        var description = event.target.value 
         this.setState({
-          description: description
+          description: event.target.value
         }, () => this.makeEntry());
         break;
       }
@@ -67,63 +40,61 @@ export default class EntryForm extends Component {
   }
 
   makeEntry(){
-    let entry = {
-        id: this.state.id,
-        title: this.state.title,
-        description: this.state.description || null,
-        date: (new Date()).toString(),
-        created_at: (new Date()).toString(),
-        labels: this.state.labelIds || [],
-        images: this.state.images || [],
-    };
-    this.setState({ entry: entry });
-    this.props.store.dispatch(action.setCurrentEntry(entry));
-    // send the entry object to parent component
-    // this.props.getEntryData(entry);
+    const entry = this.state;
+    console.log('make entry', entry);
+    if(!entry.editMode){
+      console.log('setting new date')
+      entry.date = new Date().toString();
+    }
+    delete entry.editMode;
+    
+    this.props.dispatch(action.setCurrentEntry(entry));
   }
   
-  updateLabelList(labels){
-    let labelIds = []
-    for(let i = 0; i < labels.length; i++){
-      labelIds.push(labels[i].id);
-    }
-    this.setState({
-      labelIds: labelIds
-    }, function(){
-      this.makeEntry();
-    });
-  }
+  // updateLabelList(labels){
+  //   let labelIds = []
+  //   for(let i = 0; i < labels.length; i++){
+  //     labelIds.push(labels[i].id);
+  //   }
+  //   this.setState({
+  //     labelIds: labelIds
+  //   }, function(){
+  //     this.makeEntry();
+  //   });
+  // }
 
-  updateEntryImageList(images){
-    if(images && this.state.images){
-      if(this.state.images.length !== images.length){
-        this.setState({
-          images: images
-        }, function(){
-          this.makeEntry();
-        });
-      }
-    }
-  }
+  // updateEntryImageList(images){
+  //   if(images && this.state.images){
+  //     if(this.state.images.length !== images.length){
+  //       this.setState({
+  //         images: images
+  //       }, function(){
+  //         this.makeEntry();
+  //       });
+  //     }
+  //   }
+  // }
 
   render () {
+    const { title, description, editMode } = this.state;
     return (
       <div className="entry-form">
         <form>
           <TextField
             hintText="Title"
-            defaultValue={this.state.title}
+            defaultValue={ title ? title : ''}
             fullWidth={true}
             onChange={(event) => this.handleChange(event)}
             id="title"
-            errorText={!this.state.titleValid ? 'This field is required' : null }
+            errorText={editMode && !title ? 'This field is required' : null }
           />
 
           <TextField
             hintText="Description"
-            defaultValue={this.state.description}
+            defaultValue={description ? description : ''}
             fullWidth={true}
             onChange={(event) => this.handleChange(event)}
+            multiLine={true}
             id="description"
           />
 

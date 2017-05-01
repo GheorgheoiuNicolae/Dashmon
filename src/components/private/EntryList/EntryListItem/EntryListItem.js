@@ -14,7 +14,9 @@ import EntrySingle from './EntrySingle/EntrySingle';
 })
 export default class Entry extends Component {
   removeEntry(){
-    this.props.dispatch(action.removeEntry(this.props.store.user.uid, this.props.entry.id));
+    const { user } = this.props.store;
+    const { entryId } = this.props.entry.id;
+    this.props.dispatch(action.removeEntry(user.uid, entryId));
   }
 
   render () {
@@ -24,13 +26,13 @@ export default class Entry extends Component {
 
     return (
       <div className='Entry'>
-        <p className="time"> {moment(this.props.entry.timestamp).format('hh:mm')} </p>
+        <p className="time"> {moment(new Date(this.props.entry.date)).format('hh:mm')} </p>
         <div className="main-label">
           <svg className="icon icon-photo_camera"><use xlinkHref={`${sprites}#icon-photo_camera`}></use></svg>
         </div>
         <EntrySingle entry={this.props.entry} />
         <div className="labels">
-          {labels}
+          { labels }
         </div>
         <div className="entry-info-icons">
           <svg className="icon icon-photo_camera"><use xlinkHref={`${sprites}#icon-photo_camera`}></use></svg>

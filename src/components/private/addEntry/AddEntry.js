@@ -36,14 +36,12 @@ export default class AddEntry extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.dispatch(action.saveEntry(this.state.entry, this.props.store.user.uid));
+    const { uid } = this.props.store.user;
+    const { currentEntry } = this.props.store;
+    console.log('save current entry', currentEntry);
+    this.props.dispatch(action.create1000Entries(currentEntry, uid));
     this.handleClose();
   }
-
-  getEntryData(entry){
-    this.setState({entry: entry});
-  }
-
 
   render () {
     const actions = [
@@ -82,7 +80,7 @@ export default class AddEntry extends Component {
           autoScrollBodyContent={true}
         >
          
-          <EntryForm entry={null} getEntryData={this.getEntryData.bind(this)} />
+          <EntryForm />
         </Dialog>
       </div>
     )
