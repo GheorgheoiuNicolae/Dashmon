@@ -48,19 +48,22 @@ export function matchLabelsToEntries(entries, labels){
 export function addEntryToStore(entry, entryList){
   const date = new Date(entry.date);
   const entryFormatedDate = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
-  
+  const YMD = new Date(date.getFullYear(), date.getMonth()+1, date.getDate());
+
   const day = _.find(entryList, {
-    date: entryFormatedDate
+    date: YMD,
   });
 
   if(day){
     day.entries.push(entry)
   } else {
     entryList.push({
-      date: `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`,
+      date: YMD,
       entries: [entry]
     });
   }
+
+  console.log('entryList: ', entryList);
 
   return entryList
 }
