@@ -1,35 +1,29 @@
 import { ref } from '../config/constants';
-import { parseObject, matchLabelsToEntries } from '../helpers/utils';
+import { matchLabelsToEntry } from '../helpers/utils';
 
 export function getEntries(uid, labels) {
   return dispatch => {
     let entriesRef = ref.child(`entries/${uid}`);
     entriesRef.on('child_added', (snap) => {
-      console.log('get entries snap', snap.val());
-      // let entries = parseObject(snap.val());
-      let parsedEntries = matchLabelsToEntries(snap.val(), labels);
+      let entryWithLabels = matchLabelsToEntry(snap.val(), labels);
       dispatch({
         type: 'UPDATE_ENTRY_LIST',
-        payload: parsedEntries
+        payload: entryWithLabels
       })
     })
   }
 }
 
-export function create1000Entries(data, uid) {
-  console.log('action - create1000Entries: ', data)
-  
-  for(let i = 0; i < 1000; i++){
+export function create300Entries(data, uid) {
+  console.log('create300Entries: ', data)
+  for(let i = 0; i < 30; i++){
     let entriesRef = ref.child(`entries/${uid}`).push();
     const pushkey = entriesRef.getKey()
-    console.log('entriesRef', entriesRef.getKey());
     entriesRef.set({
       ...data,
       id: pushkey
     })
   }
-  
-  
 }
 
 export function saveEntry(data, uid) {
@@ -37,7 +31,6 @@ export function saveEntry(data, uid) {
   return dispatch => {
     let entriesRef = ref.child(`entries/${uid}`).push();
     const pushkey = entriesRef.getKey()
-    console.log('entriesRef', entriesRef.getKey());
     entriesRef.set({
       ...data,
       id: pushkey
@@ -66,9 +59,6 @@ export function removeEntry(uid, entryId) {
 
 export function editEntry(uid, newData) {
   newData.date = newData.date.toString();
-  // formatted date is a property set in the FE to order entries
-  // remove it before saving in the db
-  delete newData.formatedDate
 
   return dispatch => {
     let entryRef = ref.child(`entries/${uid}/${newData.id}`);

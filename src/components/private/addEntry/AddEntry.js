@@ -39,7 +39,7 @@ export default class AddEntry extends Component {
     const { uid } = this.props.store.user;
     const { currentEntry } = this.props.store;
     console.log('save current entry', currentEntry);
-    this.props.dispatch(action.create1000Entries(currentEntry, uid));
+    this.props.dispatch(action.create300Entries(currentEntry, uid));
     this.handleClose();
   }
 
