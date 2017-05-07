@@ -63,7 +63,5 @@ export function addEntryToStore(entry, entryList){
     });
   }
 
-  console.log('entryList: ', entryList);
-
   return entryList
 }

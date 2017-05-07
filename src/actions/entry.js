@@ -5,6 +5,7 @@ export function getEntries(uid, labels) {
   return dispatch => {
     let entriesRef = ref.child(`entries/${uid}`);
     entriesRef.on('child_added', (snap) => {
+      console.log('snap', snap.val())
       let entryWithLabels = matchLabelsToEntry(snap.val(), labels);
       dispatch({
         type: 'UPDATE_ENTRY_LIST',
@@ -43,14 +44,16 @@ export function saveEntry(data, uid) {
   }
 }
 
-export function removeEntry(uid, entryId) {
+export function removeEntry(uid, entry) {
+  console.log('entry: ', entry)
   return dispatch => {
-    let entryRef = ref.child(`entries/${uid}/${entryId}`);
+    let entryRef = ref.child(`entries/${uid}/${entry.id}`);
     entryRef.remove().then((res) => {
       dispatch({
         type: 'REMOVE_ENTRY',
-        payload: null
+        payload: entry
       });
+      console.log('firebase removed the entry')
     }).catch(() => {
       console.log('the entry was not removed for some reason...')
     })
@@ -59,14 +62,16 @@ export function removeEntry(uid, entryId) {
 
 export function editEntry(uid, newData) {
   newData.date = newData.date.toString();
-
   return dispatch => {
     let entryRef = ref.child(`entries/${uid}/${newData.id}`);
-    console.log('editEntry: ', newData);
 
-    entryRef.set({ ...newData }).then((res) => {
-    }).catch(() => {
-      console.log('the entry was not edited for some reason...')
+    entryRef.set({ ...newData }).then(() => {
+      dispatch({
+        type: 'EDIT_ENTRY',
+        payload: newData
+      });
+    }).catch((e) => {
+      console.log('the entry was not edited for some reason...', e)
     })
   }
 }

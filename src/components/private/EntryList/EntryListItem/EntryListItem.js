@@ -15,8 +15,8 @@ import EntrySingle from './EntrySingle/EntrySingle';
 export default class Entry extends Component {
   removeEntry(){
     const { user } = this.props.store;
-    const { entryId } = this.props.entry.id;
-    this.props.dispatch(action.removeEntry(user.uid, entryId));
+    const entry = this.props.entry;
+    this.props.dispatch(action.removeEntry(user.uid, entry));
   }
 
   render () {
